@@ -2,16 +2,30 @@ package com.game;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
 
 public class Game extends Canvas implements Runnable {
     private static final long serialVersionUID = 2748474426917688944L;
     private Thread thread;
     private boolean running = false;
+    private Random r;
+
+    private Handler handler;
 
     public static final int WIDTH = 640, HEIGHT = WIDTH/12*9;
 
     public Game(){
         new Window(WIDTH, HEIGHT, "Master Game!", this);
+        handler = new Handler();
+
+        r = new Random();
+        for (int i = 0; i < 10; i++){
+
+            handler.addObject(new Player( 0, 0, ID.Player));
+
+        }
+
+
     }
 
     public synchronized void start(){
@@ -61,7 +75,7 @@ public class Game extends Canvas implements Runnable {
             stop(); // no longer running stop the thread
         }
     private void tick(){
-
+            handler.tick();
         }
      private void render(){
             BufferStrategy bs = this.getBufferStrategy();
@@ -74,6 +88,7 @@ public class Game extends Canvas implements Runnable {
             g.setColor(Color.darkGray);
             g.fillRect(0, 0, WIDTH, HEIGHT);
 
+            handler.render(g);
             g.dispose();
             bs.show();
         }
