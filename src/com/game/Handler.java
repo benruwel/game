@@ -21,6 +21,13 @@ public class Handler {
             tempObject.render(g);
         }
     }
+    public void loadImages(){
+        for ( int i = 0; i < object.size(); i++){
+            GameObject tempObject = object.get(i);
+            tempObject.loadImages();
+        }
+    }
+
     //These methods add and remove game objects ie player and/or enemies
     public void addObject(GameObject object){
         this.object.add(object);

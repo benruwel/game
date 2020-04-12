@@ -9,22 +9,29 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
     private boolean running = false;
     private Random r;
+    private HUD hud;
 
     private Handler handler;
 
     public static final int WIDTH = 640, HEIGHT = WIDTH/12*9;
 
     public Game(){
-        new Window(WIDTH, HEIGHT, "Master Game!", this);
+
         handler = new Handler();
 
-        r = new Random();
-        for (int i = 0; i < 10; i++){
+        this.addKeyListener(new KeyInput(handler));
 
-            handler.addObject(new Player( 0, 0, ID.Player));
+        new Window(WIDTH, HEIGHT, "Master Game!", this);
+
+        r = new Random();
+        hud = new HUD();
+
+        for (int i = 0; i < 1; i++){
+
+            handler.addObject(new Enemy( r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy));
 
         }
-
+        handler.addObject(new Player( 100, 100, ID.Player));
 
     }
 
@@ -42,6 +49,9 @@ public class Game extends Canvas implements Runnable {
         }
     }
     public void run(){
+
+            this.requestFocus();
+
             long lastTime = System.nanoTime(); // get current time to the nanosecond
             double amountOfTicks = 60.0; // set the number of ticks
             double ns = 1000000000 / amountOfTicks; // this determines how many times we can divide 60 into 1e9 of nano seconds or about 1 second
@@ -68,14 +78,16 @@ public class Game extends Canvas implements Runnable {
                 frames++; // note that a frame has passed
                 if(System.currentTimeMillis() - timer > 1000 ){ // if one second has passed
                     timer+= 1000; // add a thousand to our timer for next time
-                    System.out.println("FPS: " + frames); // print out how many frames have happened in the last second
+                    //System.out.println("FPS: " + frames); // print out how many frames have happened in the last second
                     frames = 0; // reset the frame count for the next second
                 }
             }
             stop(); // no longer running stop the thread
         }
     private void tick(){
-            handler.tick();
+
+        handler.tick();
+        hud.tick();
         }
      private void render(){
             BufferStrategy bs = this.getBufferStrategy();
@@ -85,13 +97,23 @@ public class Game extends Canvas implements Runnable {
             }
             Graphics g = bs.getDrawGraphics();
 
-            g.setColor(Color.darkGray);
+            g.setColor(Color.BLACK);
             g.fillRect(0, 0, WIDTH, HEIGHT);
 
+
             handler.render(g);
+            hud.render(g);
             g.dispose();
             bs.show();
         }
+
+
+        public static int clamp(int val, int max, int min){
+            if(val >= max)
+                return val = max;
+            else return Math.max(val, min);
+        }
+
     public static void main(String[]args){
         new Game();
     }
