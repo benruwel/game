@@ -31,7 +31,7 @@ public class Game extends Canvas implements Runnable {
             handler.addObject(new Enemy( r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy));
 
         }
-        handler.addObject(new Player( 100, 100, ID.Player));
+        handler.addObject(new Player( 100, 100, ID.Player, handler));
 
     }
 

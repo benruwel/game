@@ -8,11 +8,15 @@ public class HUD {
 
     public void tick(){
 
+
+        HEALTH = Game.clamp(HEALTH, 100, 0);
     }
     public void render(Graphics g){
         g.setColor(Color.darkGray);
         g.fillRect(0, 0, 100, 20);
-        g.setColor(Color.gray);
+        g.setColor(Color.green);
+        g.fillRect(0, 0, HEALTH, 20);
+        g.setColor(Color.white);
         g.drawRect(0, 0, 100, 20);
 
 
