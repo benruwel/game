@@ -20,10 +20,10 @@ public abstract class GameObject {
     public abstract Rectangle getBounds();
 
     public void setX(int x) {
-        this.x = x;
+        this.x = Game.WIDTH/20;
     }
     public void setY(int y) {
-        this.y = y;
+        this.y = Game.WIDTH / 20;
     }
     public int getX(){
         return x;

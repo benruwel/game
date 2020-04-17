@@ -10,6 +10,8 @@ public class Game extends Canvas implements Runnable {
     private boolean running = false;
     private Random r;
     private HUD hud;
+    private Spawn spawn;
+
 
     private Handler handler;
 
@@ -25,10 +27,11 @@ public class Game extends Canvas implements Runnable {
 
         r = new Random();
         hud = new HUD();
+        spawn = new Spawn(handler, hud);
 
         for (int i = 0; i < 1; i++){
 
-            handler.addObject(new Enemy( r.nextInt(WIDTH), r.nextInt(HEIGHT), ID.Enemy));
+            handler.addObject(new Enemy( r.nextInt(Game.WIDTH), r.nextInt(Game.HEIGHT), ID.Enemy));
 
         }
         handler.addObject(new Player( 100, 100, ID.Player, handler));
@@ -88,6 +91,7 @@ public class Game extends Canvas implements Runnable {
 
         handler.tick();
         hud.tick();
+        spawn.tick();
         }
      private void render(){
             BufferStrategy bs = this.getBufferStrategy();
